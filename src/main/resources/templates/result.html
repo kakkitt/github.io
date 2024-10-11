@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Processing Results</title>
+    <style>
+        img {
+            max-width: 70%;
+            height: auto;
+        }
+        .page-section {
+            margin-bottom: 50px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+<h1>Processing Results</h1>
+
+<!-- Display total latency -->
+<div>
+    <h2>Total Processing Time</h2>
+    <p th:text="'Processing completed in ' + ${totalLatency} + ' seconds.'"></p>
+</div>
+
+<div>
+    <h2>PDF Data Extraction Path</h2>
+    <p th:text="${jsonPath}"></p>
+</div>
+
+<div>
+    <h2>OCR-Like Data Path</h2>
+    <p th:text="${ocrLikePath}"></p>
+</div>
+
+<div>
+    <h2>Pages</h2>
+    <div th:each="imageUrl, iterStat : ${imagePaths}">
+        <div class="page-section">
+            <h3>Page [[${iterStat.index} + 1]]</h3>
+            <div style="display: flex;">
+                <div>
+                    <img th:src="${imageUrl}" alt="Page [[${iterStat.index} + 1]]">
+                </div>
+                <div>
+                    <h4>LATIN Prompt</h4>
+                    <pre th:text="${latinPrompts[iterStat.index]}"></pre>
+                    <h4>LLM Response</h4>
+                    <pre th:text="${llmResponses[iterStat.index]}"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <h2>Workflow</h2>
+    <pre th:text="${workflowResponse}"></pre>
+</div>
+
+</body>
+</html>

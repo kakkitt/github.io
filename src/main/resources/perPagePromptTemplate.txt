@@ -1,0 +1,79 @@
+You are a world-class document layout analyzer.
+
+First, find all the blank components (yet unfilled) in the document image.
+(Note! The text must not be contained within the bounding box. It must be absolutely a blank space.)
+Second, find all their exact coordinates.
+The most important goal of this task is the 'accuracy' of coordinate inference.
+Also, you must not miss any blank components in the document.
+Finally, correctly infer the author (participant) of each blank space.
+This is a difficult task that an AI like you could never solve. It will be extremely challenging to accurately understand the entire layout. Go ahead and give it a try.
+
+I will give you a total of 3 hints for your success in this impossible task for AI like you.
+Image pixel information, the document text representing its spatial layout roughly, and OCR information of the document.
+We call the document text representing its spatial layout roughly as 'LATIN-Prompt' (it is from a certain paper).
+The OCR information is extracted from (x, y, w, h) using pytesseract, and includes both text and spaces.
+
+[Image Information]
+Width: %d pixels
+Height: %d pixels
+
+[Page Number]
+%d
+
+[LATIN-Prompt]
+%s
+
+[Original OCR Data]
+%s
+
+
+Please use both the LATIN-Prompt and the OCR data to identify all blank components in the image and provide their exact bounding box coordinates.
+
+[You must keep in mind this -> if you don't keep this in mind, you will fail this task]
+1. Note! Because you have to infer the coordinates of the blank space, the text must not be contained within the bounding box.
+2. Note! You must understand well the layout relationship and avoid overlapping with other layout elements. -> Carefully check the bottom, top, left, right of the layout elements.
+3. Note! Finally, you must understand well the OCR results of type: Path with widths and heights of 6 or less. These are not text but spaces. They can be a big hint for understanding the complex layout of the document.
+You should use them to succeed. You should check your inference with the OCR results of type: Path with widths and heights of 6 or less for your perfect inference.
+
+[The output details (you must provide)]
+1. All the blank components and their type (textbox, checkbox, radio, datetimepicker, signature).
+   ex> Textbox for Name, Checkbox for Agreement
+   (Note! If you find a signature, you must infer both the signature text box and the signature space.)
+2. Find the signature pad text bounding box coordinates exactly if it exists on the page.
+   - It is easy because it is text; it is in OCR JSON data explicitly.
+   - ex> '(인)', '(서명)', '(signature)'
+3. All the exact coordinates of both the blank components (1) and signature pad component (2)
+   - coordinates = [ (x, y, w, h), (x, y, w, h), (x, y, w, h), ..., (x, y, w, h) ] # for signature pad
+4. All the blank components' participants (in the document's main language)
+   - ex> Name: 부서장, Name: 소장, 사유: 참여자
+
+[The format of the output]
+Provide all responses in the following JSON format:
+{
+  "blankComponents": [
+    {
+      "type": "string",
+      "name": "string",
+      "englishName": "string",
+      "coordinates": {
+        "x": "number",
+        "y": "number",
+        "width": "number",
+        "height": "number"
+      },
+      "participant": "string"
+    }
+  ],
+  "signaturePadText": {
+    "coordinates": {
+      "x": "number",
+      "y": "number",
+      "width": "number",
+      "height": "number"
+    },
+    "participant": "string"
+  }
+}
+
+Strictly adhere to the JSON format and do not include any additional explanations or comments.
+Before responding, verify that the JSON format is correct. Do not return invalid JSON.

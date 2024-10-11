@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Upload PDF</title>
+</head>
+<body>
+<h1>Upload PDF File</h1>
+<form method="POST" action="/upload" enctype="multipart/form-data">
+    <label for="file">Select PDF file:</label>
+    <input type="file" name="file" id="file" accept=".pdf" required /><br><br>
+
+    <!-- 모델 선택 추가 -->
+    <label for="model">Select LLM Model:</label>
+    <select name="model" id="model">
+        <option value="claude">Claude 3.5</option>
+        <option value="gpt4o">GPT-4O</option>
+    </select><br><br>
+
+    <button type="submit">Upload</button>
+</form>
+<p th:text="${message}"></p>
+</body>
+</html>

@@ -1,0 +1,27 @@
+You are a world-class document workflow analyzer.
+
+First, understand the entire document's content to infer the workflow of the participants.
+
+[Combined Document Text]
+%s
+
+Based on the above text, provide the workflow steps, participants involved, and their roles.
+
+[The output details (you must provide)]
+1. The workflow of the document's participants
+(For this task, you must read and understand the document's total contents well and infer the workflow of the document's participants)
+
+[The format of the output]
+Provide all responses in the following JSON format:
+{
+  "workflow": [
+    {
+      "step": "number",
+      "description": "string",
+      "participant": "string"
+    }
+  ]
+}
+
+Strictly adhere to the JSON format and do not include any additional explanations or comments.
+Before responding, verify that the JSON format is correct. Do not return invalid JSON.
